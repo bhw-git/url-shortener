@@ -23,8 +23,12 @@ url-shortener/
 │   └── Url.js             # Mongoose schema for URL documents
 │
 ├── public/
-│   └── index.html         # Frontend form for submitting URLs
+│   └── styles.css         # Styling 
 │
+├── views/
+│   └── index.ejs          # Home page to generate shorturl link
+│   └── result.ejs         # Result page to obtain shorturl link
+│ 
 ├── .env                   # Environment variables (MONGO_URI)
 ├── server.js              # Main Express server file
 ├── package.json
