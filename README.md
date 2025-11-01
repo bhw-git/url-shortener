@@ -27,7 +27,6 @@ url-shortener/
 │
 ├── views/
 │   └── index.ejs          # Home page to generate shorturl link
-│   └── result.ejs         # Result page to obtain shorturl link
 │ 
 ├── .env                   # Environment variables (MONGO_URI)
 ├── server.js              # Main Express server file

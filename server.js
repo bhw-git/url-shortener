@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Home Page
 app.get("/", (req, res) => {
-    res.render("index.ejs");
+    res.render("index.ejs", {shortUrl: null});
 });
 
 // Shorten URL - Handle form submission
@@ -36,12 +36,12 @@ app.post("/shorten", async(req, res) => {
 
         if(url) {
             // console.log("shortUrl inside if()",shortUrl);
-            return res.render("result.ejs",{shortUrl: url.shortUrl}); 
+            return res.render("index.ejs",{shortUrl: url.shortUrl}); 
         }
         // console.log("shortUrl outside if()",shortUrl);
         url = new Url({urlCode, longUrl, shortUrl});
         await url.save();
-        res.render("result.ejs",{shortUrl: url.shortUrl});
+        res.render("index.ejs",{shortUrl: url.shortUrl});
 
     } catch (error) {
         console.error(error);
