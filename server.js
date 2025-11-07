@@ -15,9 +15,9 @@ const __dirname = path.dirname(__filename);
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "ejs");
+app.use(express.static("public"));
 app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 // For debugging in Vercel
 console.log("Views directory:", path.join(__dirname, "views"));
@@ -26,11 +26,11 @@ console.log("Current directory:", __dirname);
 //Database
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ MongoDB connected"))
-    .catch((err) => console.log(err));
+    .catch((err) => console.log("MongoDB connection error:" ,err));
 
 // Home Page
 app.get("/", (req, res) => {
-    res.render("index.ejs", {shortUrl: null});
+    res.render("index", {shortUrl: null});
 });
 
 // Shorten URL - Handle form submission
@@ -45,12 +45,12 @@ app.post("/shorten", async(req, res) => {
 
         if(url) {
             // console.log("shortUrl inside if()",shortUrl);
-            return res.render("index.ejs",{shortUrl: url.shortUrl}); 
+            return res.render("index",{shortUrl: url.shortUrl}); 
         }
         // console.log("shortUrl outside if()",shortUrl);
         url = new Url({urlCode, longUrl, shortUrl});
         await url.save();
-        res.render("index.ejs",{shortUrl: url.shortUrl});
+        res.render("index",{shortUrl: url.shortUrl});
 
     } catch (error) {
         console.error(error);
