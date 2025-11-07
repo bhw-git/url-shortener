@@ -6,7 +6,7 @@ import Url from "./models/Url.js";
 
 dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //Middleware
 app.use(express.json());
@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 // Shorten URL - Handle form submission
 app.post("/shorten", async(req, res) => {
     const {longUrl} = req.body;
-    const base = "http://localhost:3000";
+    const base = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${port}`;
     const urlCode = shortid.generate();
 
     try {
