@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 // Shorten URL - Handle form submission
 app.post("/shorten", async(req, res) => {
     const {longUrl} = req.body;
-    const base = process.env.VERCEL_URL ? `http://bhwsurl` : `http://localhost:${port}`;
+    const base = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
     const urlCode = shortid.generate();
 
     try {
