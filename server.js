@@ -15,9 +15,13 @@ const __dirname = path.dirname(__filename);
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+// For debugging in Vercel
+console.log("Views directory:", path.join(__dirname, "views"));
+console.log("Current directory:", __dirname);
 
 //Database
 mongoose.connect(process.env.MONGO_URI)
