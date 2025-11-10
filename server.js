@@ -5,6 +5,7 @@ import shortid from "shortid";
 import Url from "./models/Url.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 const app = express();
@@ -33,8 +34,15 @@ app.get("/", (req, res) => {
     res.render("index", {shortUrl: null});
 });
 
+//Rate limiter 
+const limiter = rateLimit({
+    windowMS: 1 * 60 * 1000,    // Time span 
+    max: 10,                     // max request limit of each IP with respect to stipulated time
+    message: "Too many requests, try again later"  //Error message if max limit reached
+});
+
 // Shorten URL - Handle form submission
-app.post("/shorten", async(req, res) => {
+app.post("/shorten", limiter, async(req, res) => {
     const {longUrl} = req.body;
     const base = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
     const urlCode = shortid.generate();
