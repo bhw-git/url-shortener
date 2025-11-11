@@ -44,12 +44,27 @@ const limiter = rateLimit({
 // Shorten URL - Handle form submission
 app.post("/shorten", limiter, async(req, res) => {
     const {longUrl} = req.body;
+    let {customUrl} = req.body;
+    if(!customUrl || customUrl.trim() === ""){
+        customUrl = null;
+    }
+    console.log({longUrl});
+    console.log({customUrl});
     const base = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
-    const urlCode = shortid.generate();
+    let urlCode;
+    if(customUrl === null){
+        urlCode = shortid.generate();
+        console.log("Shortcode Auto Generated");
+    }
+    else {
+        urlCode = customUrl;
+        console.log("custom Shortcode Used");
+        console.log(urlCode);
+    }
 
     try {
         let url = await Url.findOne({longUrl});
-        let shortUrl = `${base}/${urlCode}`;
+        let shortUrl = `${base}/${urlCode}`; 
 
         if(url) {
             // console.log("shortUrl inside if()",shortUrl);

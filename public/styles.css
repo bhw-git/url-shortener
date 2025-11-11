@@ -1,59 +1,195 @@
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
+  background-color: #0d0d0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
   text-align: center;
-  margin-top: 50px;
-  background-color: black;
+  width: 100%;
 }
 
-h2 {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: #ffffff;
-}
-
-input {
-  padding: 10px;
-  width: 300px;
-  border: 0px;
+.card {
+  background: #1a1a1a44;
+  padding: 30px;
   border-radius: 20px;
+  width: 450px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(236, 25, 236, 0.658);
+  animation: glow-card 5s infinite ease-in-out;
+}
+
+.card:hover{
+  box-shadow: none;
+  animation: 2s ease-in-out;
+}
+
+@keyframes glow-card {
+  0% {
+    box-shadow: 0 0 15px rgba(247, 129, 194, 0.856),
+                0 0 25px rgba(15, 55, 231, 0.863);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(247, 17, 197, 0.918),
+                0 0 25px rgba(75, 91, 228, 0.87);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(6, 184, 255, 0.897),
+                0 0 25px rgba(247, 129, 194, 0.856);
+  }
+}
+
+.input-field {
+  width: 90%;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  transition: 0.3s ease-in-out;
   text-align: center;
 }
 
-button { 
-  line-height: 50px;
-  padding: 0px 25px;
-  font-size:medium;
-  cursor: pointer;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  background-color: #ff00ff;
+.input-field:focus {
+  box-shadow: 0 0 15px #ff00ff;
 }
 
+button {
+  cursor: pointer;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  margin: 10px;
+  font-size: 15px;
+  transition: 0.3s;
+}
 
-a {
-    font-size: 30px;
-    padding-bottom: 20px;
+.primary-btn {
+  background: transparent;
+  border: 2px solid #ff00ff;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #ff00ff;
+  /* transform: scale(1.05); */
+  box-shadow: 0 0 15px #ff00ff;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 2px solid #ff00ff;
+  color: white;
+}
+
+.secondary-btn:hover {
+  box-shadow: 0 0 15px #ff00ff;
+  /* transform: scale(1.05); */
+}
+
+.cancel-btn {
+  background: #ff0066;
+  border: 2px solid #ff00ff;
+  color: white;
+}
+
+.cancel-btn:hover{
+  transform: scale(1.05);
+}
+
+.home-btn {
+  background: #44444498;
+  border: 2px solid #ff00ff;
+  color: white;
+}
+
+.home-btn:hover{
+  box-shadow: 0 0 15px #ff00ff;
+  /* transform: scale(1.05); */
+}
+
+.custom-group {
+  display: none;
+}
+
+.result-box {
+  margin-top: 30px;
+}
+
+.result-link {
+  font-size: 25px;
+  display: block;
+  margin-top: 10px;
 }
 
 .animated-gradient-text {
-  /* font-size: 4rem; */
-  font-family: Arial, sans-serif;
   font-weight: bold;
   background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
   background-size: 200% auto;
-  color: #fff; /* Fallback for browsers that don't support background-clip */
-  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-flow 4s linear infinite;
-  display: inline-block; /* Ensures background-clip works correctly */
 }
 
 @keyframes gradient-flow {
-  0% {
-    background-position: 0% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.copy-btn {
+  background: #222;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 25px;
+  margin-left: 10px;
+  transition: 0.3s;
+}
+
+.copy-btn:hover {
+  background: #00ffff;
+  color: black;
+}
+
+/* Nice animation text pulse
+.copied {
+  animation: copiedBlink 0.5s ease-in-out;
+}
+
+@keyframes copiedBlink {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+} */
+
+.copyBox h2{
+  color: aliceblue;
+}
+
+/* Toast Notification */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(90deg, #00ffcc, #00ffff);
+  color: black;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateY(30px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateY(0px);
 }

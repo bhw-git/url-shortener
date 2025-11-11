@@ -6,18 +6,60 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <div>
+  <div class="container">
   <h1 class="animated-gradient-text">URL Shortener</h1>
-  <form action="/shorten" method="POST">
-    <input type="text" name="longUrl" placeholder="Enter your long URL" required>
-    <button type="submit">Shorten</button>
+  <form action="/shorten" method="POST" class="card">
+    <input class="input-field" type="text" name="longUrl" placeholder="Enter Long URL" required>
+    <button id="customButton" type="button" class="secondary-btn" onclick="showCustomUrl()">Set Custom URL</button>
+    <div id="customInput" class="custom-group">
+      <input class="input-field" type="text" name="customUrl" placeholder="Enter your custom URL">
+      <button class="cancel-btn" type="button" onclick="hideCustomUrl()">cancel☝️</button>
+    </div>
+    <button class="primary-btn" type="submit">Shorten✂️</button>
+    <button class="home-btn" type="button" onclick="window.location.href='/'">Home🏠</button>
   </form>
   <p>
     <% if(shortUrl) { %>
-      <h2>Your shortened link ✨ Ta..daaa...👇</h2>
-      <p><a class="animated-gradient-text" href="<%= shortUrl %>" target="blank"><%= shortUrl %></a></p>
+      <div class="copyBox">
+        <h2>Your shortened link ✨ Ta..daaa...👇</h2>
+        <a id="shortUrlText" class="result-link animated-gradient-text" href="<%= shortUrl %>" target="_blank">
+          <%= shortUrl %>
+        </a>
+        <button type="button" class="copy-btn" onclick="copyShortUrl()">📋 Copy</button>
+      </div>
     <% } %>
   </p>
   </div>
+  <div id="toast">✅ Copied!</div>
+
+  <script>
+    function showCustomUrl(){
+      document.querySelector("#customInput").style.display="block";
+      document.querySelector("#customButton").style.display="none";
+    }
+    function hideCustomUrl(){
+      document.querySelector("#customInput").style.display="none";
+      document.querySelector("#customButton").style.display="inline-block";
+    }
+
+    function copyShortUrl() {
+      const urlText = document.getElementById("shortUrlText").innerText;
+      navigator.clipboard.writeText(urlText);
+      
+      // Animation feedback
+      const link = document.getElementById("shortUrlText");
+      link.classList.add("copied");
+
+      setTimeout(() => link.classList.remove("copied"), 500);
+
+      // Toast Notification
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1500);
+        }
+  </script>
 </body>
 </html>
