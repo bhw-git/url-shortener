@@ -19,6 +19,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+//So that the express-rate-limit can run without any validation issue
+app.set("trust proxy", 1);
 
 // For debugging in Vercel
 console.log("Views directory:", path.join(__dirname, "views"));
@@ -26,8 +28,8 @@ console.log("Current directory:", __dirname);
 
 //Database
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("✅ MongoDB connected"))
-    .catch((err) => console.log("MongoDB connection error:" ,err));
+.then(() => console.log("✅ MongoDB connected"))
+.catch((err) => console.log("MongoDB connection error:" ,err));
 
 // Home Page
 app.get("/", (req, res) => {

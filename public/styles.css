@@ -22,7 +22,7 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 50px rgba(236, 25, 236, 0.658);
-  animation: glow-card 5s infinite ease-in-out;
+  animation: glow-card 10s infinite ease-in-out;
 }
 
 .card:hover{
@@ -40,8 +40,8 @@ body {
                 0 0 25px rgba(75, 91, 228, 0.87);
   }
   100% {
-    box-shadow: 0 0 15px rgba(6, 184, 255, 0.897),
-                0 0 25px rgba(247, 129, 194, 0.856);
+    box-shadow: 0 0 15px rgba(247, 129, 194, 0.856), 
+                0 0 25px rgba(6, 184, 255, 0.897);
   }
 }
 
