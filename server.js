@@ -63,8 +63,11 @@ app.post("/shorten", limiter, async(req, res) => {
 
     try {
         let url = await Url.findOne({longUrl});
-        let shortUrl = `${base}/${urlCode}`; 
-
+        let shortUrl = `${base}/${urlCode}`;
+        if(customUrl !== null){
+            url = Url({urlCode, longUrl, shortUrl}); 
+            await url.save();
+        }
         if(url) {
             return res.render("index",{shortUrl: url.shortUrl}); 
         }
