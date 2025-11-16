@@ -54,14 +54,11 @@ app.post("/shorten", limiter, async(req, res) => {
     console.log({customUrl});
     const base = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
     let urlCode;
-    if(customUrl === null){
-        urlCode = shortid.generate();
-        console.log("Shortcode Auto Generated");
+    if(customUrl !== null){
+        urlCode = customUrl;
     }
     else {
-        urlCode = customUrl;
-        console.log("custom Shortcode Used");
-        console.log(urlCode);
+        urlCode = shortid.generate();
     }
 
     try {
@@ -69,10 +66,8 @@ app.post("/shorten", limiter, async(req, res) => {
         let shortUrl = `${base}/${urlCode}`; 
 
         if(url) {
-            // console.log("shortUrl inside if()",shortUrl);
             return res.render("index",{shortUrl: url.shortUrl}); 
         }
-        // console.log("shortUrl outside if()",shortUrl);
         url = new Url({urlCode, longUrl, shortUrl});
         await url.save();
         res.render("index",{shortUrl: url.shortUrl});
