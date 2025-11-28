@@ -78,7 +78,7 @@ button {
 
 .primary-btn:hover {
   background: #ff00ff;
-  /* transform: scale(1.05); */
+  transform: scale(1.05);
   box-shadow: 0 0 15px #ff00ff;
 }
 
@@ -90,7 +90,7 @@ button {
 
 .secondary-btn:hover {
   box-shadow: 0 0 15px #ff00ff;
-  /* transform: scale(1.05); */
+  transform: scale(1.05);
 }
 
 .cancel-btn {
@@ -111,7 +111,7 @@ button {
 
 .home-btn:hover{
   box-shadow: 0 0 15px #ff00ff;
-  /* transform: scale(1.05); */
+  transform: scale(1.05);
 }
 
 .custom-group {
@@ -192,4 +192,26 @@ button {
 #toast.show {
   opacity: 1;
   transform: translateY(0px);
+}
+
+/* TTL Section Styling */
+.ttl-group {
+  display: none;
+  margin-top: 10px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#ttlButton {
+  background: transparent;
+  border: 2px solid #ff00ff;
+  color: white;
+}
+
+#ttlButton:hover {
+  transform: scale(1.05);
 }

@@ -9,13 +9,28 @@
   <div class="container">
   <h1 class="animated-gradient-text">URL Shortener</h1>
   <form action="/shorten" method="POST" class="card">
+    <!-- Input Field -->
     <input class="input-field" type="text" name="longUrl" placeholder="Enter Long URL" required>
+    <!-- customURL -->
     <button id="customButton" type="button" class="secondary-btn" onclick="showCustomUrl()">Set Custom URL</button>
     <div id="customInput" class="custom-group">
       <input class="input-field" type="text" name="customUrl" placeholder="Enter your custom URL">
       <button class="cancel-btn" type="button" onclick="hideCustomUrl()">cancel☝️</button>
     </div>
+    <!-- TTL UI -->
+    <button id="ttlButton" type="button" class="secondary-btn" onclick="showTTL()">Enable TTL</button>
+    <div id="ttlInput" class="ttl-group">
+        <input type="number" name="ttl" class="input-field" placeholder="Enter TTL value">
+        <select name="ttlUnit" class="input-field">
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="days">Days</option>
+        </select>
+        <button type="button" class="cancel-btn" onclick="hideTTL()">Cancel TTL</button>
+    </div>
+    <!-- Shorten  -->
     <button class="primary-btn" type="submit">Shorten✂️</button>
+    <!-- home -->
     <button class="home-btn" type="button" onclick="window.location.href='/'">Home🏠</button>
   </form>
   <p>
@@ -56,10 +71,21 @@
       const toast = document.getElementById("toast");
       toast.classList.add("show");
 
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, 1500);
-        }
-  </script>
+      setTimeout(() => toast.classList.remove("show"), 1500);
+      }
+
+      function showTTL() {
+          document.getElementById("ttlInput").style.display = "block";
+          document.getElementById("ttlButton").style.display = "none";
+      }
+
+      function hideTTL() {
+          document.getElementById("ttlInput").style.display = "none";
+          document.getElementById("ttlButton").style.display = "inline-block";
+          // Clear TTL inputs
+          document.querySelector("input[name='ttl']").value = "";
+          document.querySelector("select[name='ttlUnit']").selectedIndex = 0;
+      }
+    </script>
 </body>
 </html>

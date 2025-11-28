@@ -45,33 +45,41 @@ const limiter = rateLimit({
 
 // Shorten URL - Handle form submission
 app.post("/shorten", limiter, async(req, res) => {
-    const {longUrl} = req.body;
+    const {longUrl, ttl, ttlUnit} = req.body;
     let {customUrl} = req.body;
     if(!customUrl || customUrl.trim() === ""){
         customUrl = null;
     }
-    console.log({longUrl});
-    console.log({customUrl});
+    // console.log({longUrl});
+    // console.log({customUrl});
     const base = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
-    let urlCode;
-    if(customUrl !== null){
-        urlCode = customUrl;
-    }
-    else {
-        urlCode = shortid.generate();
+    let urlCode = customUrl ? customUrl : shortid.generate();
+
+    let expiresAt = null;
+    if (ttl && ttlUnit){
+        const ttlValue = parseInt(ttl);
+        if(ttlUnit === "minutes"){
+            expiresAt = new Date(Date.now() + ttlValue * 60 * 1000);
+        }
+        if(ttlUnit === "hours"){
+            expiresAt = new Date(Date.now() + ttlValue * 60 * 60 * 1000);
+        }
+        if(ttlUnit === "days"){
+            expiresAt = new Date(Date.now() + ttlValue * 24 * 60 * 60 * 1000);
+        }
     }
 
     try {
         let url = await Url.findOne({longUrl});
         let shortUrl = `${base}/${urlCode}`;
-        if(customUrl !== null){
-            url = Url({urlCode, longUrl, shortUrl}); 
+
+        if(!customUrl && !ttl && url){
+            url = new Url({urlCode, longUrl, shortUrl, expiresAt}); 
             await url.save();
-        }
-        if(url) {
             return res.render("index",{shortUrl: url.shortUrl}); 
         }
-        url = new Url({urlCode, longUrl, shortUrl});
+        
+        url = new Url({urlCode, longUrl, shortUrl, expiresAt});
         await url.save();
         res.render("index",{shortUrl: url.shortUrl});
 
@@ -86,11 +94,15 @@ app.get("/:code", async(req, res) => {
     try {
         const url = await Url.findOne({urlCode: req.params.code });
         console.log("/:code", url);
-        if(url){
-            return res.redirect(url.longUrl);
-        } else {
-            res.status(404).json("URL not found");
+        if(!url) {
+            return res.status(404).json("URL not found");
         }
+        if(url.expiresAt && new Date() > url.expiresAt){
+            return res.send("This link is expired");
+        }
+        console.log("url.expiresAt", url.expiresAt);
+        console.log("date", new Date());
+        res.redirect(url.longUrl);
     } catch (error) {
         console.error(error);
         res.status(500).json("Server Error");
